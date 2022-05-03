@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "MyFirstActor.generated.h"
-// 이 아래로 이 이상 include하면 에러난다고함 generated.h 위로 include해야함
+// include문은 이 밑으로는 더이상 쓰면안됨 에러난다고함
 
 UCLASS()
 class MYFIRSTPROJECT_API AMyFirstActor : public AActor
@@ -24,4 +24,19 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	class USphereComponent* CollisionSpehere;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UStaticMeshComponent* mStaticMesh;
+
+	// #include "Kismet/GameplayStatics.h"
+	// #include "particles/ParticleSystemComponent.h"
+	// 필요
+	UPROPERTY(EditDefaultsOnly, Category = "MyItem")
+		UParticleSystem* ParticleFX;
+
+	UFUNCTION()
+		void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+			UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SeepResult);
 };
