@@ -32,3 +32,38 @@ void ABasicCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 }
 
+void ABasicCharacter::Attack_Melee()
+{
+	switch (ComboAttack_Num)
+	{
+	case 0:
+		PlayAnimMontage(Attack_Melee_Anim01, 1.0f);
+		isDuringAttack = true;
+		ComboAttack_Num++;
+		break;
+	case 1:
+		PlayAnimMontage(Attack_Melee_Anim02, 1.0f);
+		isDuringAttack = true;
+		ComboAttack_Num++;
+		break;
+	case 2:
+		PlayAnimMontage(Attack_Melee_Anim03, 1.0f);
+		isDuringAttack = true;
+		ComboAttack_Num++;
+		break;
+	default:
+		ComboAttack_Num = 0;		
+		break;
+	}
+
+	// 1.7초후에 Attack_Melee_End를 호출
+	FTimerHandle TH_Attack_End;
+	GetWorldTimerManager().SetTimer(TH_Attack_End, this, &ABasicCharacter::Attack_Melee_End, 1.7f, false);
+	
+}
+
+void ABasicCharacter::Attack_Melee_End()
+{
+	isDuringAttack = false;
+}
+

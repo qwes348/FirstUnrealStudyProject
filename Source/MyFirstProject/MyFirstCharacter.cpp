@@ -38,12 +38,15 @@ void AMyFirstCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMyFirstCharacter::MoveForward);
 	// 옆으로 이동
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMyFirstCharacter::MoveRight);
+
+	// 공격
+	PlayerInputComponent->BindAction("Attack", IE_Released, this, &AMyFirstCharacter::Attack_Melee);
 }
 
 // 앞뒤이동
 void AMyFirstCharacter::MoveForward(float value)
 {
-	if ((Controller != NULL) && (value != 0.0f))
+	if ((Controller != NULL) && (value != 0.0f) && isDuringAttack == false)
 	{
 		// #include "GameFramework/PlayerController.h" 필요
 		const FRotator Rot = Controller->GetControlRotation();
@@ -56,7 +59,7 @@ void AMyFirstCharacter::MoveForward(float value)
 // 좌우이동
 void AMyFirstCharacter::MoveRight(float value)
 {
-	if ((Controller != NULL) && (value != 0.0f))
+	if ((Controller != NULL) && (value != 0.0f) && isDuringAttack == false)
 	{
 		// #include "GameFramework/PlayerController.h" 필요
 		const FRotator Rot = Controller->GetControlRotation();
