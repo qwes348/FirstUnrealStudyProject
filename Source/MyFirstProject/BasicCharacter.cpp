@@ -34,29 +34,31 @@ void ABasicCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 void ABasicCharacter::Attack_Melee()
 {
-	switch (ComboAttack_Num)
+	if(ComboAttack_Num < 3)
 	{
-	case 0:
-		PlayAnimMontage(Attack_Melee_Anim01, 1.0f);
-		isDuringAttack = true;
+		int tmp_Num = rand() % 3 + 1;
+
+		// Attack_(num)섹션을 랜덤으로 뽑아서 1,2,3중에 랜덤으로 출력함
+		FString PlaySection = "Attack_" + FString::FromInt(tmp_Num);
+
+		PlayAnimMontage(AttackCombo_AnimMt, 1.f, FName(*PlaySection));
+
 		ComboAttack_Num++;
-		break;
-	case 1:
-		PlayAnimMontage(Attack_Melee_Anim02, 1.0f);
+
+		UE_LOG(LogTemp, Warning, TEXT("Combo : %d"), ComboAttack_Num);
+
 		isDuringAttack = true;
-		ComboAttack_Num++;
-		break;
-	case 2:
-		PlayAnimMontage(Attack_Melee_Anim03, 1.0f);
-		isDuringAttack = true;
-		ComboAttack_Num++;
-		break;
-	default:
-		ComboAttack_Num = 0;		
-		break;
+	}
+	else
+	{
+		// 피니쉬어택
+		PlayAnimMontage(LastAttack_Anims, 1.f);
+		ComboAttack_Num = 0;
 	}
 
+
 	// 1.7초후에 Attack_Melee_End를 호출
+	// 여기 초를 더 늘려야함 피니쉬어택때문에
 	FTimerHandle TH_Attack_End;
 	GetWorldTimerManager().SetTimer(TH_Attack_End, this, &ABasicCharacter::Attack_Melee_End, 1.7f, false);
 	
@@ -65,5 +67,6 @@ void ABasicCharacter::Attack_Melee()
 void ABasicCharacter::Attack_Melee_End()
 {
 	isDuringAttack = false;
+	ComboAttack_Num = 0;
 }
 

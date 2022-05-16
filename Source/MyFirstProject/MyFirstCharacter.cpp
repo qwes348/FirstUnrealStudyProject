@@ -53,6 +53,8 @@ void AMyFirstCharacter::MoveForward(float value)
 		const FRotator YawRot(0, Rot.Yaw, 0);
 		const FVector Direction = FRotationMatrix(YawRot).GetUnitAxis(EAxis::X);
 		AddMovementInput(Direction, value);
+		// 움직이면 공격순서 초기화
+		ComboAttack_Num = 0;
 	}	
 }
 
@@ -66,5 +68,7 @@ void AMyFirstCharacter::MoveRight(float value)
 		const FRotator YawRot(0, Rot.Yaw, 0);
 		const FVector Direction = FRotationMatrix(YawRot).GetUnitAxis(EAxis::Y);
 		AddMovementInput(Direction, value);
+		// 움직이면 공격순서 초기화
+		ComboAttack_Num = 0;
 	}
 }
